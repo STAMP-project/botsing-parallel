@@ -37,7 +37,7 @@ public class ExecuteBotsingThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			System.out.println(Thread.currentThread().getName() + " Start. Frame = " + frame);
+			LOG.info(Thread.currentThread().getName() + " Start. Current frame = " + frame);
 
 			synchronized (frame) {// add synchronized clause
 
