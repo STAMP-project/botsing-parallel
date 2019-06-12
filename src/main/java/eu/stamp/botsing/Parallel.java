@@ -81,10 +81,11 @@ public class Parallel {
 		int size = total_frames.length;
 
 		for (int i = 0; i < size; i++) {
-			if ((i + 1) % target_frames > 0)
+			if ((i + 1) % target_frames > 0) {
 				total_frames[i] = (i + 1) % target_frames;
-			else
+			} else {
 				total_frames[i] = target_frames;
+			}
 		}
 
 		ExecutorService executor = Executors.newFixedThreadPool(n);
@@ -99,7 +100,8 @@ public class Parallel {
 
 		while (!executor.isTerminated()) {
 		}
-		LOG.info("Finished all threads. Test completed!" + ExecuteBotsingThread.getFramesCompleted());
+		LOG.info("Finished all threads. Test completed!");
+		LOG.info("List of frames completed: " + ExecuteBotsingThread.getFramesCompleted());
 	}
 
 	protected CommandLine parseCommands(String[] args, Options options) {

@@ -12,23 +12,24 @@ import org.slf4j.LoggerFactory;
 
 public class ExecuteBotsingThread extends Thread {
 
-	int frame;
+	Integer frame;
 	List<String> properties;
 
 	private static final Logger LOG = LoggerFactory.getLogger(ExecuteBotsingThread.class);
 
-	private static List<Integer> frames_completed = new ArrayList<Integer>();
 	private static String TEST_DIR = "test_dir";
 
+	private static List<Integer> framesCompleted = new ArrayList<Integer>();
+
 	public static List<Integer> getFramesCompleted() {
-		return frames_completed;
+		return framesCompleted;
 	}
 
 	public static void addFrameComplete(Integer value) {
-		frames_completed.add(value);
+		framesCompleted.add(value);
 	}
 
-	ExecuteBotsingThread(int frame, List<String> properties) {
+	ExecuteBotsingThread(Integer frame, List<String> properties) {
 		this.frame = frame;
 		this.properties = properties;
 	}
@@ -36,23 +37,24 @@ public class ExecuteBotsingThread extends Thread {
 	@Override
 	public void run() {
 		try {
+			System.out.println(Thread.currentThread().getName() + " Start. Frame = " + frame);
 
-			// check
-			if (!(getFramesCompleted().contains(frame))) { // run
+			synchronized (frame) {// add synchronized clause
 
-				boolean success = executeJar(frame);
-				if (success) {
-					addFrameComplete(frame);
-					LOG.info("Botsing parallel ended with successful for frame " + frame);
+				if (!(getFramesCompleted().contains(frame))) { // run thread
+					boolean success = executeJar(frame);
 
-				} else {
-					LOG.info("Botsing parallel failed for frame " + frame);
+					if (success) {
+						addFrameComplete(frame);
+						LOG.info("Botsing parallel terminated with successful for frame " + frame);
+					} else {
+						LOG.info("Botsing parallel failed for frame " + frame);
+					}
+
+				} else {// jump frame is already executed
+					LOG.info("Botsing parallel for frame " + frame + " already done!");
 				}
-
-			} else {// jump frame is already executed
-				LOG.info("Botsing parallel for frame " + frame + " already done!");
 			}
-
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

@@ -58,8 +58,9 @@ public class DefaultProperties {
 	}
 
 	public void removeProperty(String key) {
-		if (containsKey(key))
+		if (containsKey(key)) {
 			properties.remove(key);
+		}
 	}
 
 	public Properties getProperties() {
