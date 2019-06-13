@@ -1,6 +1,7 @@
 package eu.stamp.botsing;
 
 import static eu.stamp.botsing.CommandLineParameters.CRASH_LOG_OPT;
+import static eu.stamp.botsing.CommandLineParameters.D_OPT;
 import static eu.stamp.botsing.CommandLineParameters.HELP_OPT;
 import static eu.stamp.botsing.CommandLineParameters.N_OPT;
 import static eu.stamp.botsing.CommandLineParameters.PROJECT_CP_OPT;
@@ -61,11 +62,17 @@ public class Parallel {
 			int x = Integer.parseInt(commands.getOptionValue(X_OPT));
 			int target_frames = Integer.parseInt(commands.getOptionValue(TARGET_FRAME_OPT));
 
+			// add required properties
 			addProperty(PROJECT_CP_OPT, commands.getOptionValue(PROJECT_CP_OPT));
 			addProperty(CRASH_LOG_OPT, commands.getOptionValue(CRASH_LOG_OPT));
-			addDefaultProperties();
 
-			// TODO add new parameters
+			// read default parameters from config.properties
+			Properties properties = defaultProperties.getProperties();
+
+			// overwrite default properties D from command line
+			overwriteProperties(properties, commands.getOptionProperties(D_OPT));
+
+			addProperties(properties);
 
 			// load botsing-reproduction jar file
 			saveBotsingJar(BOTSINF_JAR_PATH);
@@ -90,7 +97,7 @@ public class Parallel {
 
 		ExecutorService executor = Executors.newFixedThreadPool(n);
 
-		System.out.println(Arrays.toString(total_frames));
+		LOG.info("List of frames to exexcute: " + Arrays.toString(total_frames));
 		for (int i = 0; i < size; i++) {
 
 			Thread worker = new ExecuteBotsingThread(total_frames[i], properties);
@@ -140,14 +147,19 @@ public class Parallel {
 		}
 	}
 
-	private void addDefaultProperties() {
-		Properties properties = defaultProperties.getProperties();
+	private void addProperties(Properties properties) {
 		properties.forEach((key, value) -> addDProperty(key.toString(), value.toString()));
 	}
 
 	protected void addDProperty(String name, String value) {
 		if (value != null && value.length() > 0) {
 			properties.add("-D" + name + "=" + value);
+		}
+	}
+
+	protected void overwriteProperties(Properties properties, Properties props) {
+		for (String property : props.stringPropertyNames()) {
+			properties.setProperty(property, props.getProperty(property));
 		}
 	}
 
@@ -175,7 +187,7 @@ public class Parallel {
 			inputStream.close();
 			fos.flush();
 
-			System.out.println("File Written Successfully");
+			LOG.info("File " + BOTSING_REPRODUCTION + " write with successful in " + file.getAbsolutePath());
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		} finally {

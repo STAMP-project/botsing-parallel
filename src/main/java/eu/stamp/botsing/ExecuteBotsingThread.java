@@ -46,13 +46,13 @@ public class ExecuteBotsingThread extends Thread {
 
 					if (success) {
 						addFrameComplete(frame);
-						LOG.info("Botsing parallel terminated with successful for frame " + frame);
+						LOG.info("Botsing parallel terminated with successfully for frame " + frame);
 					} else {
 						LOG.info("Botsing parallel failed for frame " + frame);
 					}
 
 				} else {// jump frame is already executed
-					LOG.info("Botsing parallel for frame " + frame + " already done!");
+					LOG.info("Botsing parallel for frame " + frame + " already completed!");
 				}
 			}
 		} catch (InterruptedException e) {
@@ -78,10 +78,10 @@ public class ExecuteBotsingThread extends Thread {
 		parallelProperties.add(frame + "");
 
 		jarCommand.addAll(parallelProperties);
-		LOG.info("jarCommand :" + jarCommand);
+		LOG.info("JarCommand list:" + jarCommand);
 
 		ProcessBuilder builder = new ProcessBuilder(jarCommand.toArray(new String[0]));
-		// builder.directory(workDir.getAbsoluteFile());
+
 		builder.redirectErrorStream(true);
 
 		try {
@@ -95,7 +95,7 @@ public class ExecuteBotsingThread extends Thread {
 
 			int exitCode = process.waitFor();
 			if (exitCode != 0)
-				System.out.println("\nExited with error code : " + exitCode);
+				LOG.info("\nExited with error code : " + exitCode);
 
 			return exitCode == 0;
 		} catch (IOException e) {
@@ -108,6 +108,7 @@ public class ExecuteBotsingThread extends Thread {
 		prop.addAll(properties);
 
 		for (int i = 0; i < prop.size(); i++) {
+			// update test_dir
 			if (prop.get(i).contains(TEST_DIR)) {
 				prop.set(i, prop.get(i) + "-" + frame);
 				break;
