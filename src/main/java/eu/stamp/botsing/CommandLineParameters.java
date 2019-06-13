@@ -14,15 +14,6 @@ public class CommandLineParameters {
 	public static final String N_OPT = "N";
 	public static final String X_OPT = "X";
 
-	// optional parameters
-	public static final String POPULATION_OPT = "population";
-	public static final String SEARCH_BUDGET_OPT = "search_budget";
-	public static final String MAX_RECURSION = "max_recursion";
-	public static final String TEST_DIR = "test_dir";
-	public static final String NO_RUNTIME_DEPENDENCY = "no_runtime_dependency";
-	public static final String GLOBAL_TIMEOUT = "global_timeout";
-	public static final String CATCH_UNDECLARED_EXCEPTIONS = "catch_undeclared_exceptions";
-
 	public static Options getCommandLineOptions() {
 		Options options = new Options();
 
