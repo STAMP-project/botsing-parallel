@@ -97,7 +97,7 @@ public class Parallel {
 
 		ExecutorService executor = Executors.newFixedThreadPool(n);
 
-		LOG.info("List of frames to exexcute: " + Arrays.toString(total_frames));
+		LOG.info("List of frames to execute: " + Arrays.toString(total_frames));
 		for (int i = 0; i < size; i++) {
 
 			Thread worker = new ExecuteBotsingThread(total_frames[i], properties);
