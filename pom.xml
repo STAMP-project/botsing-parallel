@@ -4,12 +4,12 @@
 
     <groupId>eu.stamp-project</groupId>
     <artifactId>botsing-parallel</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>Botsing Parallel</name>
 
-	<description>This repository provides Java components to run several instances of botsing-reproduction in parallel.</description>
+	<description>This repository provides a Java executable to run several instances of botsing-reproduction in parallel.</description>
 
     <url>https://www.stamp-project.eu/</url>
     <inceptionYear>2019</inceptionYear>
@@ -54,6 +54,7 @@
         <!-- To ensure a proper management of dependencies, all versions have to be declared here -->
         <maven-assembly-plugin.version>3.1.0</maven-assembly-plugin.version>
         <maven-shade-plugin.version>3.2.1</maven-shade-plugin.version>
+        <botsing.version>1.0.7</botsing.version>
 	
     </properties>
 
@@ -61,7 +62,7 @@
 		<dependency>
 		    <groupId>eu.stamp-project</groupId>
 		    <artifactId>botsing</artifactId>
-		    <version>1.0.7</version>
+		    <version>${botsing.version}</version>
 		    <type>pom</type>
 		</dependency>
 
@@ -93,7 +94,6 @@
 	</dependencies>
 
 	<build>
-		<finalName>botsing-parallel</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
