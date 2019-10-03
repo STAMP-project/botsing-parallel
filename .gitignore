@@ -48,6 +48,8 @@ Thumbs.db
 **/test/**/botsing/local/
 **/test/**/botsing/model/generation/local/
 
+# local crash reproduction tests folder
+**/crash-reproduction-tests*
 
 # Generated website
 _site/
